@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VACATION</title>
+    <style>
+   
+        h1,h2,h3,h4,p,ul,li{
+            margin: 0;
+            padding: 0;
+        }
+        img{
+            max-width: 100%;
+        }
+        body{
+            font-family: Arial, Helvetica, sans-serif;
+            color: #333;
+        }
+        header{
+            padding: 50px;
+            background-color: cornflowerblue;
+            color:white;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        main{
+            max-width: 800px;
+            display:flex;
+            padding: 30px;
+            margin: auto;
+            justify-content: space-between;
+        }
+        main form{
+            width: 40%;
+        }
+        main article{
+            width: 40%;
+        }
+        h1,h2,h3,h4,p{
+            margin-bottom:1em;
+        }
+        #title{
+            text-align: center;
+        }
+        lable{
+            display: block;
+            margin-bottom: 1em;
+            font-weight:900;
+            font-size:medium;
+            font-style: initial;
+            font-style: italic;
+            font-variant:small-caps;
+            font-family: cursive;
+            border:2px solid greenyellow;
+            border-radius: 60px;
+            text-decoration:double;
+            text-indent:30px;background-color: #666;
+            text-decoration-color: coral;
+            text-decoration:solid;
+            color:white;
+
+        
+        }
+        label{
+            margin-bottom: 5px;
+            font-weight:900;
+            font-size:medium;
+            font-style: initial;
+            font-style: italic;
+            font-variant:small-caps;
+            font-family: cursive;
+            border:2px solid greenyellow;
+            border-radius: 60px;
+            text-decoration:double;
+            text-indent:30px;background-color: #666;
+            text-decoration-color: coral;
+            text-decoration:solid;
+            color:white;
+            float: left;
+            margin-top: 2px;
+
+
+        }
+        input,textarea,#destination button{
+            display: block;
+            width: 100%;
+            margin-bottom: 1em;
+            border: 5px solid #666;
+            padding: 10px;
+            box-sizing: border-box;
+            font-style:oblique;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            font-display:unset;
+            font-variant: small-caps;
+        }
+        .card{
+            padding:20px;
+            background-color: #efefef;
+            margin-bottom: 20px;
+
+        }
+        #photo
+        {
+            font-style: normal;
+            
+            font-variant: normal;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Vacation search list</h1>
+        <p>Here is the website thats helps to search the best tourist place
+            according to  your search list
+        </p>
+        <p>Use the form below and fill this</p>
+    </header>
+    <main>
+        <form id="destination">
+            <lable for="name">Destination name</lable>
+            <input type="text" id="name" placeholder="PROVIDE NAME FOR DESTINATION" required>
+            <lable for="location">Destination location</lable>
+            <input type="text" id="location" placeholder="Enter Destination location" required>
+            <lable for="photo">photo</lable>
+            <input type="url" id="photo" placeholder="provide a url for photo">
+            <label for="description">Destination Description</label>
+            <textarea id="description" placeholder="Describe"></textarea>
+            <button type="submit">ADD TO THE LIST</button>
+        </form>
+        <article>
+            <h2 id="title">Destination Details</h2>
+            <div id="destination_container">
+                <!--content genereted by js-->
+             <!--   <div class="card">
+                    <img src="/slideshoes.html/cool1.jpg">
+                    <div class="card-body">
+                        <h3>Destination Name</h3>
+                        <h4>Destination Location</h4>
+                        <p class="card-text">Destination Description</p>
+                        <button>Remove</button>
+                    </div>
+                </div>-->
+            </div>
+        </article>
+    </main>
+    <script>
+        var detailform=document.querySelector("#destination");
+        detailform.addEventListener('submit',handleFormSubmit);
+        function handleFormSubmit(eve){
+            eve.preventDefault(); 
+            var destname=eve.target.elements['name'].value;
+            var destlocation=eve.target.elements['location'].value;
+            var destphoto=eve.target.elements['photo'].value;
+            var destdesc=eve.target.elements['description'].value;
+            
+            for(i=0;i<detailform.length;i++){
+                detailform.elements[i].value=" ";
+            }
+            var destcard=createcard(destname,destlocation,destphoto,destdesc);
+            var wishlist=document.getElementById("destination_container");
+            if(wishlist.children.length==0){
+                document.getElementById("title").innerHTML="My wish List";
+            }
+            document.querySelector("#destination_container").appendChild(destcard);
+        }
+        function createcard(name,location,photo,description){
+            var card=document.createElement('div');
+            card.className='card';
+            var image=document.createElement('img');
+            image.setAttribute('alt',name);
+            var nrmphoto="https://res.cloudinary.com/dzwdee9wj/image/upload/v1677218673/cool1_ejc2n5.jpg";
+            if(photo.length==0){
+                image.setAttribute('src',nrmphoto);
+            }
+            else{
+                image.setAttribute('src',photo);
+            }
+            card.appendChild(image);
+            var cardbody=document.createElement('div');
+            cardbody.className="card-body";
+            var cardname=document.createElement('h3');
+            cardname.innerHTML=name;
+            cardbody.appendChild(cardname);
+            var cardlocation=document.createElement('h4');
+            cardlocation.innerHTML=location;
+            cardbody.appendChild(cardlocation);
+            if(description.length!=0){
+            var carddesc=document.createElement('p');
+            carddesc.className="card-text"
+            carddesc.innerHTML=description;
+            cardbody.appendChild(carddesc);
+            }
+            var carddel=document.createElement('button');
+            carddel.innerHTML="REMOVE";
+            carddel.addEventListener('submit',removedist)
+            cardbody.appendChild(carddel);
+            card.appendChild(cardbody);
+            return card;
+        } 
+        function removedist(even){
+            var card=even.target.parentElement.parentElement;
+            card.remove();
+        }
+
+    </script>
+    
+</body>
+</html>
